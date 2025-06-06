@@ -1,0 +1,31 @@
+{
+  "name": "improvibit",
+  "version": "0.0.1",
+  "description": "A self-improving GitHub bot that scans its own code, applies improvements, and opens pull requests.",
+  "main": "src/main.ts",
+  "scripts": {
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^1.2.0",
+    "dotenv": "^16.5.0",
+    "glob": "^11.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.24",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AleLuppi/improvibit.git"
+  },
+  "keywords": [
+    "github",
+    "bot",
+    "self-improving",
+    "automation"
+  ],
+  "author": "Alessandro Luppi",
+  "license": "MIT"
+}
