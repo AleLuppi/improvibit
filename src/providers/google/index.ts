@@ -1,0 +1,1 @@
+export { genAI } from "./gemini";
