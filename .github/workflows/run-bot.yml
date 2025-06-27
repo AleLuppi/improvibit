@@ -7,9 +7,6 @@ jobs:
   improvibit:
     runs-on: ubuntu-latest
 
-    env:
-      COMMIT_MESSAGE_FILE: ${{ runner.temp }}/commit_message.txt
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -22,10 +19,12 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Run AI Agent
+      - name: Define commit message file
         run: |
-          MESSAGE=$(tsx ./src/main.ts)
-          echo "MESSAGE=$MESSAGE" >> $GITHUB_ENV
+          echo "COMMIT_MESSAGE_FILE=$RUNNER_TEMP/commit_message.txt" >> $GITHUB_ENV
+
+      - name: Run AI Agent
+        run: tsx ./src/main.ts
 
       - name: Check for changes
         run: |
