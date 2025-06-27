@@ -5,6 +5,7 @@ import {
   rm,
   readdir,
   rmdir,
+  copyFile as fsCopyFile,
 } from "fs/promises";
 
 /**
@@ -48,6 +49,7 @@ async function deleteFile(path: string): Promise<boolean> {
 
     let currentDir = dirname(fullPath);
 
+    // Clean up empty folders
     while (currentDir.startsWith(projectRoot) && currentDir !== projectRoot) {
       try {
         const entries = await readdir(currentDir);
@@ -67,4 +69,33 @@ async function deleteFile(path: string): Promise<boolean> {
   return true;
 }
 
-export { makeDirectory, writeFile, deleteFile };
+/**
+ * Moves a file to a new location.
+ * Creates parent folders for the new location if needed.
+ * @param src Source file path (relative to project root)
+ * @param dst Destination file path (relative to project root)
+ */
+async function moveFile(src: string, dst: string): Promise<boolean> {
+  const projectRoot = resolve(process.cwd());
+  const fullFromPath = resolve(projectRoot, src);
+  const fullToPath = resolve(projectRoot, dst);
+
+  try {
+    await makeDirectory(dst);
+    await fsCopyFile(fullFromPath, fullToPath);
+    const deleted = await deleteFile(src);
+    if (!deleted) {
+      console.error(`File copied but not deleted: ${fullFromPath}`);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error(
+      `Failed to move file from ${fullFromPath} to ${fullToPath}`,
+      err,
+    );
+    return false;
+  }
+}
+
+export { makeDirectory, writeFile, deleteFile, moveFile };

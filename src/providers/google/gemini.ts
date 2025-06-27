@@ -68,6 +68,28 @@ const functionDeclarations: FunctionDeclaration[] = [
   },
 
   {
+    name: "move_file",
+    description:
+      "Moves a file to a new location. Creates any necessary parent folders.",
+    parameters: {
+      type: ParamType.OBJECT,
+      properties: {
+        source: {
+          type: ParamType.STRING,
+          description:
+            "The source file path (relative to the project root). Example: 'src/obsolete/module.ts'",
+        },
+        destination: {
+          type: ParamType.STRING,
+          description:
+            "The destination file path (relative to the project root). Example: 'src/new/module.ts'",
+        },
+      },
+      required: ["source", "destination"],
+    },
+  },
+
+  {
     name: "delete_file",
     description:
       "Deletes a file from the codebase. If the file doesn't exist, the operation is silently ignored.",
@@ -181,6 +203,11 @@ async function workOnTasks(tasks: string, maxCalls = 15): Promise<string> {
             return genAiFunctions.writeFile(
               (fc.args as { path: string; content: string }).path,
               (fc.args as { path: string; content: string }).content,
+            );
+          case "move_file":
+            return genAiFunctions.moveFile(
+              (fc.args as { source: string; destination: string }).source,
+              (fc.args as { source: string; destination: string }).destination,
             );
           case "delete_file":
             return genAiFunctions.deleteFile(
