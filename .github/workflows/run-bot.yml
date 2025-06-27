@@ -24,7 +24,7 @@ jobs:
           echo "COMMIT_MESSAGE_FILE=$RUNNER_TEMP/commit_message.txt" >> $GITHUB_ENV
 
       - name: Run AI Agent
-        run: tsx ./src/main.ts
+        run: yarn tsx ./src/main.ts
 
       - name: Check for changes
         run: |
