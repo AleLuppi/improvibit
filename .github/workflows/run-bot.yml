@@ -32,6 +32,8 @@ jobs:
         run: |
           if [[ `git status --porcelain` ]]; then
             echo "Changes detected. Will commit."
+            git config --global user.name "AleLuppi"
+            git config --global user.email "alelup@yahoo.it"
             git add .
             git commit -F "$COMMIT_MESSAGE_FILE"
             git push
